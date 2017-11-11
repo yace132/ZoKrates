@@ -481,6 +481,15 @@ impl Flattener {
                                 Statement::Definition(var, rhs) => {
                                     let new_rhs = rhs.apply_substitution(&replacement_map);
                                     let mut new_var: String = var.clone();
+
+                                    // apply left hand side substitution for binary representation variables
+                                    if var.contains("_b"){
+                                        let parts: Vec<&str> = var.split("_b").collect();
+                                        let replaced_var = replacement_map.get(parts[0]).unwrap().clone();
+                                        new_var = format!("{}_b{}", replaced_var, parts[1]);
+                                        replacement_map.insert(var.clone(), new_var.clone());
+                                    }
+
                                     if used_vars.contains(&var){
                                         new_var = self.get_new_var(&var, &mut used_vars);
                                         replacement_map.insert(var, new_var.clone());
