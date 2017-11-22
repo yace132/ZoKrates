@@ -1,0 +1,59 @@
+//Algorithm 3. Transaction limit
+
+//Simplified version: assume # of input =1 ,# of output =2
+
+//******************************************
+
+//PrivateInput: CoinsIn,CoinsOut
+
+//PublicInput : sig
+
+//Constants : limit
+
+//output : True if transaction is valid
+
+//*****************************************
+
+// 1 no bitwise operation, negative #
+
+// 2 no if-else --> if-else-fi
+
+// 3 def main( public input 1, public input 2, ...)
+
+//	intermidiate is private input
+
+// 4 if-statement can't contain function 
+
+def NotEqual( x, y):
+    
+    return  if x == y then 0 else 1 fi 
+
+def main( limit, sig1,sig2, CA ):
+    
+    sent=0
+    //txSignedByAuthority = if sig > 0 then VerifySig(CA, CoinOut1Value, CoinOut1Addr, CoinOut1Remain , sig1 ) * VerifySig(CA, CoinOut2Value, CoinOut2Addr, CoinOut2Remain , sig2 ) else 2 fi
+
+    // `*` play the role of `and`
+    // if signed , sig is ok --> 1
+    // 	       sif is false --> 0
+    //not signed , 		   --> 2
+    // if tx signed by authorized party, skip policy
+
+    //for e in CoinsOut do
+    // if we are paying to an input address, it is change  back
+    //	to the user and not counted against the limit
+
+    IsCoinOut1Change =  NotEqual( CoinOut1Addr, CoinInAddr)  
+    //IsCoinOut2Change =  NotEqual( CoinOut2Addr, CoinInAddr)  
+    sent = if IsCoinOut1Change == 0 then sent + CoinOut1Value else sent fi
+    //sent = if IsCoinOut2Change == 0 then sent + CoinOut2Value else sent fi
+ 	
+    //if CoinOut1Addr != CoinInAddr:
+	//	if CoinOut2Addr != CoinInAddr:	
+
+            //sent = sent + CoinOut2Value
+
+	//end
+	
+    IsTxValid = if sent <= limit then 1 else 0 fi 
+    return IsTxValid
