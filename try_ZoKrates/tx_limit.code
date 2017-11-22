@@ -2,7 +2,7 @@
 
 //Simplified version: assume # of input =1 ,# of output =2
 
-//******************************************
+//*******************************************************************************
 
 //PrivateInput: CoinsIn,CoinsOut
 
@@ -12,17 +12,26 @@
 
 //output : True if transaction is valid
 
-//*****************************************
-
-// 1 no bitwise operation, negative #
-
-// 2 no if-else --> if-else-fi
-
-// 3 def main( public input 1, public input 2, ...)
-
-//	intermidiate is private input
-
+//********************************************************************************
+//Notes:
+//
+// 1 no bitwise operation(e.g. and, or, not, ...)
+//   no True,False
+//------------------------------------------------------------
+//	We do operation in some fininite field with high order
+//	There are only +,-,*,/, in field
+//
+//
+// 2 no if-else --> if-then-else-fi instead
+//
+// 3 def main( public-input-1, public-input-2, ...)
+//
+//	intermidiate are all private-input
+//
 // 4 if-statement can't contain function 
+
+
+
 
 def NotEqual( x, y):
     
