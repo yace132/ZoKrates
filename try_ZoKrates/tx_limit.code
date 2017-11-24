@@ -15,10 +15,10 @@
 //********************************************************************************
 //Notes:
 //
-// 1 no bitwise operation(e.g. and, or, not, ...)
-//   no True,False
-//------------------------------------------------------------
-//	We do operation in some fininite field with high order
+// 1 No bitwise operation(e.g. and, or, not, ...)
+//   No True,False
+//   No >=, <=, >, only ==, <  !!!
+//	b/c we do operation in some fininite field with high order
 //	There are only +,-,*,/, in field
 //
 //
@@ -30,39 +30,36 @@
 //
 // 4 if-statement can't contain function 
 
+// TODO
+def VerifySig(CA, CoinOutValue, CoinOutAddr, CoinOutRemain , sig ) :    
+    return 0
 
 
-
-def NotEqual( x, y):
-    
+def NotEqual( x, y):    
     return  if x == y then 0 else 1 fi 
 
-def main( limit, sig1,sig2, CA ):
+
+def main( CA, limit, sig1, sig2 ):
     
-    sent=0
-    //txSignedByAuthority = if sig > 0 then VerifySig(CA, CoinOut1Value, CoinOut1Addr, CoinOut1Remain , sig1 ) * VerifySig(CA, CoinOut2Value, CoinOut2Addr, CoinOut2Remain , sig2 ) else 2 fi
-
+    // 1 if tx signed by authorized party, skip policy 
+    IsTxSigned = sig1 * sig2
+    IsSigValid = if 0 < IsTxSigned then ( VerifySig(CA, CoinOut1Value, CoinOut1Addr, CoinOut1Remain , sig1 ) * VerifySig(CA, CoinOut2Value, CoinOut2Addr, CoinOut2Remain , sig2 )) else 2 fi
     // `*` play the role of `and`
-    // if signed , sig is ok --> 1
-    // 	       sif is false --> 0
-    //not signed , 		   --> 2
-    // if tx signed by authorized party, skip policy
+    // if signed , sig is ok      --> 1
+    // 	           sig is invalid --> 0
+    // not signed, skip policy    --> 2
 
-    //for e in CoinsOut do
-    // if we are paying to an input address, it is change  back
+
+
+
+    // 2 if we are paying to an input address, it is change  back
     //	to the user and not counted against the limit
-
-    IsCoinOut1Change =  NotEqual( CoinOut1Addr, CoinInAddr)  
-    //IsCoinOut2Change =  NotEqual( CoinOut2Addr, CoinInAddr)  
+    IsCoinOut1Change =  NotEqual( CoinOut1Addr, CoinInAddr )  
+    IsCoinOut2Change =  NotEqual( CoinOut2Addr, CoinInAddr )  
+    sent = 0
     sent = if IsCoinOut1Change == 0 then sent + CoinOut1Value else sent fi
-    //sent = if IsCoinOut2Change == 0 then sent + CoinOut2Value else sent fi
+    sent = if IsCoinOut2Change == 0 then sent + CoinOut2Value else sent fi
  	
-    //if CoinOut1Addr != CoinInAddr:
-	//	if CoinOut2Addr != CoinInAddr:	
-
-            //sent = sent + CoinOut2Value
-
-	//end
 	
-    IsTxValid = if sent <= limit then 1 else 0 fi 
+    IsTxValid = if limit < sent then 0 else 1 fi
     return IsTxValid
