@@ -1,18 +1,15 @@
 //Algorithm 3. Transaction limit
-
 //Simplified version: assume # of input =1 ,# of output =2
-
+//
 //*******************************************************************************
-
+//
 //PrivateInput: CoinsIn,CoinsOut
-
 //PublicInput : sig
-
 //Constants : limit
-
 //output : True if transaction is valid
-
+//
 //********************************************************************************
+//
 //Notes:
 //
 // 1 No bitwise operation(e.g. and, or, not, ...)
@@ -23,43 +20,61 @@
 //
 //
 // 2 no if-else --> if-then-else-fi instead
-//
+//   if some-statement ...
+//   some-statement :
+//   may be x1 < x2, x1 == x2 ,... 
+//   can't be x1 , x2, ...
 // 3 def main( public-input-1, public-input-2, ...)
 //
 //	intermidiate are all private-input
 //
-// 4 if-statement can't contain function 
+// 4 for num1..num2
+//
+//******************************************************************************
+//p.s.
+// Cout for CoinOut
+// Cin for CoinIn
+// sig = 0 means no signature
+
+
+
+
 
 // TODO
-def VerifySig(CA, CoinOutValue, CoinOutAddr, CoinOutRemain , sig ) :    
+def VerifySig(CA, CoutValue, CoutAddr, CoutRemain , sig ) :    
+    PT = CoutValue + CoutAddr + CoutRemain
     return 0
 
 
-def NotEqual( x, y):    
-    return  if x == y then 0 else 1 fi 
-
+def ProvideSig( sig ):
+    return if 0 < sig then 1 else 0 fi
 
 def main( CA, limit, sig1, sig2 ):
     
     // 1 if tx signed by authorized party, skip policy 
-    IsTxSigned = sig1 * sig2
-    IsSigValid = if 0 < IsTxSigned then ( VerifySig(CA, CoinOut1Value, CoinOut1Addr, CoinOut1Remain , sig1 ) * VerifySig(CA, CoinOut2Value, CoinOut2Addr, CoinOut2Remain , sig2 )) else 2 fi
+    IsCout1SigValid = if ProvideSig( sig1 ) == 1 then VerifySig(CA, Cout1Value, Cout1Addr, Cout1Remain , sig1 ) else 3 fi
+    IsCout2SigValid = if ProvideSig( sig2 ) == 1 then VerifySig(CA, Cout1Value, Cout2Addr, Cout2Remain , sig2 ) else 3 fi 
+    NotForgeSig = if 0 < IsCout1SigValid * IsCout2SigValid then 1 else 0 fi
+    NotForgeSig == 1
+    VerifyByCA = if IsCout1SigValid * IsCout2SigValid == 1 then 1 else 0 fi
+    // "All" coins are signed by CA
     // `*` play the role of `and`
     // if signed , sig is ok      --> 1
     // 	           sig is invalid --> 0
-    // not signed, skip policy    --> 2
-
+    // not signed, check policy   --> 3
+    
 
 
 
     // 2 if we are paying to an input address, it is change  back
     //	to the user and not counted against the limit
-    IsCoinOut1Change =  NotEqual( CoinOut1Addr, CoinInAddr )  
-    IsCoinOut2Change =  NotEqual( CoinOut2Addr, CoinInAddr )  
+    IsCout1Change = if Cout1Addr == CinAddr then 1 else 0 fi
+    IsCout2Change = if Cout2Addr == CinAddr then 1 else 0 fi
     sent = 0
-    sent = if IsCoinOut1Change == 0 then sent + CoinOut1Value else sent fi
-    sent = if IsCoinOut2Change == 0 then sent + CoinOut2Value else sent fi
+    sent = if IsCout1Change == 0 then sent + Cout1Value else sent fi
+    sent = if IsCout2Change == 0 then sent + Cout2Value else sent fi
  	
 	
-    IsTxValid = if limit < sent then 0 else 1 fi
-    return IsTxValid
+    LessThanLimit = if limit < sent then 0 else 1 fi
+    PassPolicy = VerifyByCA + LessThanLimit
+    return if 0 < PassPolicy then 1 else 0 fi
