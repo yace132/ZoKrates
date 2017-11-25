@@ -1,0 +1,15 @@
+def ProvideSig(sig):
+	sym_0 = (sig * sig)
+	x = (sym_0 * sig)
+	return 0
+def main(CA,limit,sig1,sig2):
+	sym_0 = (sig2 * sig2)
+	x = (sym_0 * sig2)
+	sym_0 = (0 - 1)
+	# sym_1 = if sym_0 == 0 then 0 else 1 fi
+	# sym_2 = if sym_0 == 0 then 1 else (1 / sym_0) fi
+	sym_1 == (sym_0 * sym_2)
+	sym_3 = (1 - sym_1)
+	0 == (sym_3 * sym_0)
+	IsCout2SigValid = ((sym_3 * 11) + (sym_1 * 3))
+	return 1
