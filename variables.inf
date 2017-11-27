@@ -1,4 +1,4 @@
 Private inputs offset:
-6
+4
 R1CS variable order:
-~one CA limit sig1 sig2 ~out sym_0 x sym_2 sym_1 sym_3 IsCout2SigValid 
+~one a b ~out sym_0 x c Sym0AppearAbove Sym0ReuseNextLine d 
