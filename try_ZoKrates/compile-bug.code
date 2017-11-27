@@ -1,84 +1,11 @@
-//Algorithm 3. Transaction limit
-//Simplified version: assume # of input =1 ,# of output =2
-//
-//*******************************************************************************
-//
-//PrivateInput: CoinsIn,CoinsOut
-//PublicInput : sig
-//Constants : limit
-//output : True if transaction is valid
-//
-//********************************************************************************
-//
-//Notes:
-//
-// 1 No bitwise operation(e.g. and, or, not, ...)
-//   No True,False
-//   No >=, <=, >, only ==, <  !!!
-//	b/c we do operation in some fininite field with high order
-//	There are only +,-,*,/, in field
-//
-//
-// 2 no if-else --> if-then-else-fi instead
-//   if some-statement ...
-//   some-statement :
-//   may be x1 < x2, x1 == x2 ,... 
-//   can't be x1 , x2, ...
-// 3 def main( public-input-1, public-input-2, ...)
-//
-//	intermidiate are all private-input
-//
-// 4 for num1..num2
-//
-//******************************************************************************
-//p.s.
-// Cout for CoinOut
-// Cin for CoinIn
-// sig = 0 means no signature
+def cubic( a ):
+    x = a**3
+    return x
 
-
-
-
-
-// TODO
-//def VerifySig(CA, CoutValue, CoutAddr, CoutRemain , sig ) :    
-    //PT = CoutValue + CoutAddr + CoutRemain
-    //return 0
-
-
-def ProvideSig( sig ):
-    x = sig**3
-    //y = x ** 2 - 5
-    //z = sig// - y**2 + y**2
-    //IsProvide = if 0 == sig then 0 else 1 fi
-    return 0//IsProvide
-
-def main( CA, limit, sig1, sig2 ):
+def main( a,b ):
+    c = cubic(a)
+    Sym0AppearAbove = 1
     
-    // 1 if tx signed by authorized party, skip policy 
-    //IsCout1SigValid = 3
-    IsCout2SigValid = if ProvideSig( sig2) == 1 then 11 else 3 fi 
-    //NotForgeSig = if 0 < IsCout1SigValid * IsCout2SigValid then 1 else 0 fi
-    //NotForgeSig == 1
-    //VerifyByCA = if IsCout1SigValid * IsCout2SigValid == 1 then 1 else 0 fi
-    // "All" coins are signed by CA
-    // `*` play the role of `and`
-    // if signed , sig is ok      --> 1
-    // 	           sig is invalid --> 0
-    // not signed, check policy   --> 3
-    
-
-
-
-    // 2 if we are paying to an input address, it is change  back
-    //	to the user and not counted against the limit
-    //IsCout1Change = if Cout1Addr == CinAddr then 1 else 0 fi
-    //IsCout2Change = if Cout2Addr == CinAddr then 1 else 0 fi
-    //sent = 0
-    //sent = if IsCout1Change == 0 then sent + Cout1Value else sent fi
-    //sent = if IsCout2Change == 0 then sent + Cout2Value else sent fi
- 	
-	
-    //LessThanLimit = if limit == sent then 0 else 1 fi
-    //PassPolicy = VerifyByCA + LessThanLimit
-    return 1 //if 1 == PassPolicy then 1 else 0 fi
+    Sym0ReuseNextLine = 1
+    d = b**3
+    return 1
